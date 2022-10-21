@@ -14,7 +14,7 @@ class TweetController extends Controller
      */
     public function index()
     {
-        //
+        return Tweet::all();
     }
 
     /**
@@ -25,7 +25,13 @@ class TweetController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            "content" => "required|string", //required
+            "attachment" => "image",
+            "user_id" => "required|numeric"
+        ]);
+        $tweet = Tweet::create($request->all());
+        return $tweet;
     }
 
     /**
@@ -36,7 +42,7 @@ class TweetController extends Controller
      */
     public function show(Tweet $tweet)
     {
-        //
+        return Tweet::findOrFail($tweet->id);
     }
 
     /**
@@ -48,7 +54,7 @@ class TweetController extends Controller
      */
     public function update(Request $request, Tweet $tweet)
     {
-        //
+        return $tweet->update($request->all());
     }
 
     /**
@@ -59,6 +65,6 @@ class TweetController extends Controller
      */
     public function destroy(Tweet $tweet)
     {
-        //
+        $tweet->delete();
     }
 }

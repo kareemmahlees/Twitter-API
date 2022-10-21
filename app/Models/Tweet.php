@@ -8,4 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Tweet extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        "content",
+        "attachment",
+        "user_id",
+    ];
+
+    protected $hidden = [
+        "attachment",
+    ];
 }

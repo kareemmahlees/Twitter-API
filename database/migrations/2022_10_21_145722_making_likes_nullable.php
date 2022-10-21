@@ -18,7 +18,7 @@ return new class extends Migration
             $table->longText("content");
             $table->string("attachment")->nullable();
             $table->foreignId("user_id")->constrained("users")->onDelete("cascade");
-            $table->integer("likes")->default(0);
+            $table->integer("likes")->default(0)->nullable();
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tweets');
+        //
     }
 };

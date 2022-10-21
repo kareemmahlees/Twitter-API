@@ -1,10 +1,13 @@
 <?php
 
+use Illuminate\Contracts\Cache\Store;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Storage;
 
+use App\Http\Controllers\TweetController;
+use App\Http\Controllers\UserController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -16,15 +19,17 @@ use Illuminate\Support\Facades\Storage;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+Route::group(["middleware" => "auth:sanctum"], function () {
+    Route::resource("/tweet", TweetController::class);
+    Route::post("/logout", [UserController::class, "logout"]);
+    Route::post("/publishTweet", [UserController::class, "publishTweet"]);
 });
 
-Route::get("/first", function (Request $request) {
-    // Storage::disk("local")->put("example.txt", "heelo world");
-    // return response()->json([
-    //     "msg" => "all things are okay"
-    // ]);
-    return response()->download("storage/example.txt");
-    // return asset("storage/example.txt");
-});
+Route::post("/register", [UserController::class, "register"]);
+Route::post("/login", [UserController::class, "login"]);
+
+// Route::post("/login", [UserController::class, "login"])->middleware("auth");
